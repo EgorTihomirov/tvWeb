@@ -7,10 +7,16 @@
 </template>
 
 <script>
-
+import * as contTv from '@/components/tvLogic.js'
 export default {
   name: 'App',
   components: {
+  },
+  data() {
+    return {
+      tv: new contTv.TV(),
+      cont: new contTv.RemoteController()
+    }
   }
 }
 </script>

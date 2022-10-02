@@ -1,5 +1,5 @@
 
-log = console.log
+let log = console.log
 
 class TV {
     constructor (volume, included, brightness, arrayChan) {
@@ -80,4 +80,4 @@ class RemoteController {
 let tv = new TV(10, true, 50, ["1", "2", "3"])
 let rc = new RemoteController(tv)
 rc.managementVolume(100)
-console.log(tv._arrayChan)
+log(tv._arrayChan)
