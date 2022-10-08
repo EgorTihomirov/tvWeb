@@ -1,13 +1,20 @@
-
 let log = console.log
 
-class TV {
-    constructor (volume, included, brightness, arrayChan) {
-        this.volume = volume
-        this.included = included
-        this.brightness = brightness
-        this.arrayChan = arrayChan
-        this.currentChan = arrayChan[0]
+export class TVChannel {
+    constructor (img) {
+        this.img = img
+    }
+}
+export class TV {
+    constructor () {
+        this.volume = 50
+        this.isEnabled = false
+        this.brightness = 50
+        this.arrayChan = [
+            new TVChannel("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Felis_silvestris_silvestris.jpg/1200px-Felis_silvestris_silvestris.jpg"),
+            new TVChannel("https://bigpicture.ru/wp-content/uploads/2019/10/winterCats00.jpg")
+        ]
+        this.currentChan = 0
     }
 
     setVolume(volume) {
@@ -40,12 +47,18 @@ class TV {
         return this.included
     }
 
-    switchChannel(numChan) {
-        if (numChan >= this.arrayChan.lenght) {
-            return "нет такого канала"
+    nextChannel() {
+        if (this.currentChan++ > this.arrayChan.lastIndex) {
+            this.currentChan = 0
         }
-        this.currentChan = this.arrayChan[numChan]
     }
+
+    prevChannel() {
+        if (this.currentChan-- < 0 ) {
+            this.currentChan = this.arrayChan.lastIndex
+        }
+    }
+
     getChannel() {
         return this.currentChan
     }
@@ -55,7 +68,7 @@ class TV {
     }
 }
 
-class RemoteController {
+export class RemoteController {
     constructor(tv) {
         this.tv = tv
     }
@@ -81,3 +94,4 @@ let tv = new TV(10, true, 50, ["1", "2", "3"])
 let rc = new RemoteController(tv)
 rc.managementVolume(100)
 log(tv._arrayChan)
+
