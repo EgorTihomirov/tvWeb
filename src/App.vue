@@ -2,7 +2,12 @@
   <div>
    <div class="TV">
      <h1>Телевизор</h1>
-     <div class="square"></div>
+      <div v-if="tv.getStateTv() != true">
+          <div class="square"></div>
+      </div>
+      <div v-else-if="tv.getStateTv() == true">
+        <img :src=currentChannel() class="TVSize">
+      </div>
      <div class="sliderVolume"></div>
      <div class="sliderLight"></div>
    </div>
@@ -11,21 +16,21 @@
     <div class="RC">
      <h2 class="text">Пульт</h2>
      <div class="rectangle"></div>
-     <button class="buttonOnOff"></button>
+     <button class="buttonOnOff" @click="OnOff()"></button>
      <div class="Vol">
       <p class="firstTextRC">громкость</p>
-      <button class="buttonMaxVol">+</button>
-      <button class="buttonMinVol">-</button>
+      <button class="buttonMaxVol" @click="VolPlus()">+</button>
+      <button class="buttonMinVol" @click="VolMin()">-</button>
      </div>
      <div class="Light">
       <p class="secondTextRC">яркость</p>
-      <button class="buttonMaxLight">+</button>
-      <button class="buttonMinLight">-</button>
+      <button class="buttonMaxLight" @click="LightPlus()">+</button>
+      <button class="buttonMinLight" @click="LightMin()">-</button>
      </div>
      <div class="Chan">
       <p>переключить канал</p>
-      <button class="buttonNextChan">+</button>
-      <button class="buttonPrewChan">-</button>
+      <button class="buttonNextChan" @click="NextChan()">+</button>
+      <button class="buttonPrevChan" @click="PrevChan()">-</button>
      </div>
    </div>
   </div>
@@ -33,14 +38,50 @@
 
 <script>
 import * as contTv from '@/components/tvLogic.js'
+let tv = new contTv.TV()
+let cont = new contTv.RemoteController(tv)
 export default {
   name: 'App',
   components: {
   },
   data() {
     return {
-      tv: new contTv.TV(),
-      cont: new contTv.RemoteController()
+      tv: tv,
+      cont: cont
+    }
+  },
+  methods: {
+    VolPlus() {
+      this.cont.managementPlusVolume()
+    },
+
+    VolMin() {
+      this.cont.managementMinVolume()
+    },
+
+    LightMin() {
+      this.cont.managementMinBrightness()
+    },
+
+    NextChan() {
+      this.cont.managementNextChannel()
+    },
+    
+    PrevChan() {
+      this.cont.managementPrevChannel()
+    },
+    
+    LightPlus() {
+      this.cont.managementPlusBrightness()
+    },
+    
+    OnOff() {
+      this.cont.managementIncluded()
+    },
+    currentChannel() {
+     let channels = this.tv.getArrayChannel()
+     let channel = channels[this.tv.currentChan]
+     return channel
     }
   }
 }
@@ -54,6 +95,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.TVSize {
+  width: 300px;
+  height: 300px;
 }
 
 .parentTV {
@@ -93,6 +139,7 @@ export default {
 	width: 150px;
 	height: 360px;
 	background: rgb(32, 27, 27);
+  border-radius: 20px;
 }
 
 .sliderVolume {
@@ -136,7 +183,7 @@ export default {
   border: none;
 }
 
-.buttonPrewChan {
+.buttonPrevChan {
   margin-left: 5px;
   border: none;
   border-radius: 50%;
