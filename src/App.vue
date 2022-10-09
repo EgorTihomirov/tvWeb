@@ -8,8 +8,16 @@
       <div v-else-if="tv.getStateTv() == true">
         <img :src=currentChannel() class="TVSize">
       </div>
-     <div class="sliderVolume"></div>
-     <div class="sliderLight"></div>
+      <div>
+        <svg width="300" height="50" class="sliderVolume">
+          <rect :width="tv.getVolume()" height="50" style="fill:rgb(0,0,255);" />
+        </svg>
+      </div>
+      <diV>
+        <svg width="300" height="50" class="sliderLight">
+          <rect :width="tv.getBrightness()" height="50" style="fill:rgb(0,0,255);" />
+        </svg>
+      </diV>
    </div>
   </div>
   <div class="parentRC">
@@ -145,16 +153,12 @@ export default {
 .sliderVolume {
   position: relative;
   top: 80px;
-  width: 300px;
-  height: 50px;
   background: rgb(156, 156, 156);
 }
 
 .sliderLight {
   position: relative;
   top: 90px;
-  width: 300px;
-  height: 50px;
   background: rgb(156, 156, 156);
 }
 
