@@ -2,6 +2,7 @@
   <div>
    <div class="TV">
      <h1>Телевизор</h1>
+     
       <div v-if="tv.getStateTv() != true">
           <div class="square"></div>
       </div>
@@ -10,12 +11,12 @@
       </div>
       <div>
         <svg width="300" height="50" class="sliderVolume">
-          <rect :width="tv.getVolume()" height="50" style="fill:rgb(0,0,255);" />
+          <rect :width="tv.getVolume()*3" height="50" style="fill:rgb(0,0,255);" />
         </svg>
       </div>
       <diV>
         <svg width="300" height="50" class="sliderLight">
-          <rect :width="tv.getBrightness()" height="50" style="fill:rgb(0,0,255);" />
+          <rect :width="tv.getBrightness()*3" height="50" style="fill:rgb(0,0,255);" />
         </svg>
       </diV>
    </div>
@@ -24,7 +25,7 @@
     <div class="RC">
      <h2 class="text">Пульт</h2>
      <div class="rectangle"></div>
-     <button class="buttonOnOff" @click="OnOff()"></button>
+     <button class="buttonOnOff" @click="OnOff(); PlayAudio()"></button>
      <div class="Vol">
       <p class="firstTextRC">громкость</p>
       <button class="buttonMaxVol" @click="VolPlus()">+</button>
@@ -55,10 +56,16 @@ export default {
   data() {
     return {
       tv: tv,
-      cont: cont
+      cont: cont,
+      audio: new Audio("src/assets/audioButton.ogg")
     }
   },
   methods: {
+
+    PlayAudio() {
+      this.audio.play()
+    },
+
     VolPlus() {
       this.cont.managementPlusVolume()
     },
@@ -101,11 +108,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #272b2d;
   margin-top: 60px;
 }
 
 .TVSize {
+  position: relative;
+  top: 60px;
   width: 300px;
   height: 300px;
 }
